@@ -48,7 +48,7 @@ public class WaterBoat : MonoBehaviour
         Motor.SetPositionAndRotation(Motor.position, transform.rotation * StartRotation * Quaternion.Euler(0, 30f * steer, 0));
         if (ParticleSystem != null)
         {
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+            if (Mathf.RoundToInt(-_joystick.Horizontal) != 0)
                 ParticleSystem.Play();
             else
                 ParticleSystem.Pause();
