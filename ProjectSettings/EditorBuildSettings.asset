@@ -4,5 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/OnboardingControls.unity
+    guid: eb73fa4178e354d40969706179de81ba
+  - enabled: 1
+    path: Assets/Scenes/OnboardingGoal.unity
+    guid: 01ea9ad57a36e4e968f785f296a695ef
+  - enabled: 1
+    path: Assets/Scenes/Main Scene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}
