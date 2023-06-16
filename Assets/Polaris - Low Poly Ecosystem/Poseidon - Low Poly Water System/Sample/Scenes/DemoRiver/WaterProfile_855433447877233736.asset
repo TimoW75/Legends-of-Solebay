@@ -25,7 +25,7 @@ MonoBehaviour:
   foamColor: {r: 1, g: 1, b: 1, a: 1}
   foamDistance: 4.17
   enableFoamHQ: 1
-  foamNoiseScaleHQ: 0.17
+  foamNoiseScaleHQ: 0.08
   foamNoiseSpeedHQ: 1
   shorelineFoamStrength: 1
   crestFoamStrength: 0.317
@@ -33,7 +33,7 @@ MonoBehaviour:
   slopeFoamStrength: 0.265
   slopeFoamFlowSpeed: 30
   slopeFoamDistance: 75
-  rippleHeight: 0.204
+  rippleHeight: 0
   rippleSpeed: 5
   rippleNoiseScale: 1
   enableWave: 1

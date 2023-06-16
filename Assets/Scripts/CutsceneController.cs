@@ -4,14 +4,8 @@ using UnityEngine.SceneManagement;
 public class CutsceneController : MonoBehaviour
 {
 
-    private void Start()
+    public void PlayCutscene()
     {
-        PlayCutscene(0);
-    }
-
-    public void PlayCutscene(int index)
-    {
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
    
     }
