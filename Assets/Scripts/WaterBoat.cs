@@ -21,7 +21,7 @@ public class WaterBoat : MonoBehaviour
     //internal Properties
     protected Vector3 CamVel;
 
-    [SerializeField] private FixedJoystick _joystick;
+    [SerializeField] private bl_Joystick _joystick;
 
     public void Awake()
     {
@@ -32,20 +32,28 @@ public class WaterBoat : MonoBehaviour
 
     public void FixedUpdate()
     {
-        //default direction
-        var forceDirection = transform.forward;
+
 
         var steer = Mathf.RoundToInt(-_joystick.Horizontal);
+        print(steer);
 
         // forward/backward power (invert the vertical input)
-        var throttle = Mathf.Clamp01(-_joystick.Vertical * -1);
+        var throttle = Mathf.Clamp01(_joystick.Vertical);
+        print(throttle);
 
         Rigidbody.AddForceAtPosition(steer * transform.right * SteerPower / 100f, Motor.position);
 
-        PhysicsHelper.ApplyForceToReachVelocity(Rigidbody, transform.forward * MaxSpeed * throttle, Power);
 
-        //Motor Animation // Particle system
-        Motor.SetPositionAndRotation(Motor.position, transform.rotation * StartRotation * Quaternion.Euler(0, 30f * steer, 0));
+        if(throttle > 0)
+        {
+            PhysicsHelper.ApplyForceToReachVelocity(Rigidbody, transform.forward * MaxSpeed * throttle, Power);
+        }
+
+        if (throttle < 0)
+        {
+            PhysicsHelper.ApplyForceToReachVelocity(Rigidbody, transform.forward * MaxSpeed * throttle, Power);
+        }
+
         if (ParticleSystem != null)
         {
             if (Mathf.RoundToInt(-_joystick.Horizontal) != 0)

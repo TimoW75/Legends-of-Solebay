@@ -18,6 +18,7 @@ public class BarellSpawner : MonoBehaviour
         {
             GameObject cube = Instantiate(cubes[Random.Range(0, 1)], points[Random.Range(0, 3)]); //Amount of random objects to be spawned, and the amount of random spawnpoints (default set to 2)
             cube.transform.localPosition = Vector3.zero;
+            
             cube.GetComponent<Destroy>().enabled = true;
             timer -= beat;
 
