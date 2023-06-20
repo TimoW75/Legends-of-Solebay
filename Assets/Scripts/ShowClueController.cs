@@ -7,6 +7,7 @@ public class ShowClueController : MonoBehaviour
 {
     [SerializeField] private Image[] images;
     [SerializeField] private float fadeDuration = 1f;
+    [SerializeField] private GameObject map;
 
     private void Start()
     {
@@ -22,17 +23,21 @@ public class ShowClueController : MonoBehaviour
     {
         foreach (Image image in images)
         {
-            image.gameObject.SetActive(false);
+            image.enabled = false;
         }
     }
 
     private IEnumerator FadeImage(Image image, float startAlpha, float endAlpha, float duration)
     {
-        image.gameObject.SetActive(true);
+        image.enabled = true;
+        map.SetActive(true);
 
         Color color = image.color;
         color.a = startAlpha;
         image.color = color;
+
+        image.enabled = true;
+
 
         float startTime = Time.time;
         float endTime = startTime + duration;
