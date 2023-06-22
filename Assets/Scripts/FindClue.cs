@@ -5,6 +5,9 @@ using UnityEngine;
 public class FindClue : MonoBehaviour
 {
     [SerializeField] private GameObject[] _clue;
+    [SerializeField] private GameObject _clueImage;
+    [SerializeField] private int clueImageNumber;
+    public ShowClueController showClue;
 
     void Start()
     {
@@ -21,8 +24,10 @@ public class FindClue : MonoBehaviour
             for (int i = 0; i < _clue.Length; i++)
             {
                 _clue[i].SetActive(true);
-
             }
+            _clueImage.SetActive(true);
+
+            showClue.EnableImage(clueImageNumber);
         }
     }
     private void OnCollisionExit(Collision collision)
