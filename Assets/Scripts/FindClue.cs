@@ -10,6 +10,7 @@ public class FindClue : MonoBehaviour
     [SerializeField] private float fadeDuration = 1f;
 
     [SerializeField] private Sprite clueImage;
+    private bool givenClue = false;
 
     public Transform target;
     public float speed = 150f;
@@ -43,11 +44,16 @@ public class FindClue : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            clue.SetActive(true);
-            _clueImage.SetActive(true);
-            _clueImage.GetComponent<Image>().sprite = clueImage;
+            clue.SetActive(false);
+            if(!givenClue)
+            {
+                givenClue = true;
+                _clueImage.SetActive(true);
+                _clueImage.GetComponent<Image>().sprite = clueImage;
 
-            StartCoroutine(MoveToTarget(_clueImage, 0f, 1f, fadeDuration));
+                StartCoroutine(MoveToTarget(_clueImage, 0f, 1f, fadeDuration));
+            }
+           
         }
     }
 
@@ -61,7 +67,9 @@ public class FindClue : MonoBehaviour
 
         float startTime = Time.time;
 
-        while (_clueImage.transform.position != target.position)
+        float positionThreshold = 0.1f; // Adjust this threshold value as needed
+
+        while (Vector3.Distance(_clueImage.transform.position, target.position) > positionThreshold)
         {
             Vector3 newPosition = Vector3.MoveTowards(_clueImage.transform.position, target.position, speed * Time.deltaTime);
             _clueImage.transform.position = newPosition;
@@ -70,10 +78,10 @@ public class FindClue : MonoBehaviour
             thisImage.color = color;
             yield return null;
         }
-        color.a = endAlpha;
-        _clueImage.transform.position = startPos;
 
-        _clueImage.SetActive(true);
+        _clueImage.transform.position = startPos;
+        _clueImage.SetActive(false);
+
         openMap._children[clueChildNumber] = true;
     }
 }
