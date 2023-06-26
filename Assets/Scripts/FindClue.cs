@@ -16,10 +16,14 @@ public class FindClue : MonoBehaviour
     public float speed = 150f;
 
     [SerializeField] private int clueChildNumber;
+    [SerializeField] private QuestMarker questMarker;
 
     public OpenMap openMap;
+    public Compass compass;
+    public ShowInlineClue showInlineClue;
 
     private Vector3 startPos;
+    [SerializeField] private AudioSource clueSound;
 
     private void Start()
     {
@@ -37,6 +41,7 @@ public class FindClue : MonoBehaviour
         if (clue != null && collision.gameObject.CompareTag("Player"))
         {
             clue.SetActive(true);
+            showInlineClue.ShowClue();
         }
     }
 
@@ -50,10 +55,23 @@ public class FindClue : MonoBehaviour
                 givenClue = true;
                 _clueImage.SetActive(true);
                 _clueImage.GetComponent<Image>().sprite = clueImage;
-
+                clueSound.Play();
                 StartCoroutine(MoveToTarget(_clueImage, 0f, 1f, fadeDuration));
             }
-           
+            showInlineClue.hideClue();
+
+        }
+    }
+
+    public void GiveClue()
+    {
+        if (!givenClue)
+        {
+            givenClue = true;
+            _clueImage.SetActive(true);
+            _clueImage.GetComponent<Image>().sprite = clueImage;
+            clueSound.Play();
+            StartCoroutine(MoveToTarget(_clueImage, 0f, 1f, fadeDuration));
         }
     }
 
@@ -68,7 +86,6 @@ public class FindClue : MonoBehaviour
         float startTime = Time.time;
 
         float positionThreshold = 0.1f; // Adjust this threshold value as needed
-
         while (Vector3.Distance(_clueImage.transform.position, target.position) > positionThreshold)
         {
             Vector3 newPosition = Vector3.MoveTowards(_clueImage.transform.position, target.position, speed * Time.deltaTime);
@@ -83,5 +100,7 @@ public class FindClue : MonoBehaviour
         _clueImage.SetActive(false);
 
         openMap._children[clueChildNumber] = true;
+
+        compass.removeQuestMarker(questMarker);
     }
 }
