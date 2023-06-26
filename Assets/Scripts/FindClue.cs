@@ -21,16 +21,27 @@ public class FindClue : MonoBehaviour
     public OpenMap openMap;
     public Compass compass;
     public ShowInlineClue showInlineClue;
+    public GameManager gameManager;
 
     private Vector3 startPos;
     [SerializeField] private AudioSource clueSound;
+
+
+    [SerializeField] private GameObject mapButton;
+    public float moveDistance = 1.0f;    // Distance to move up and down
+    public float moveSpeed = 1.0f;       // Speed of movement
+    public float duration = 2.0f;        // Total duration of movement
+
+    private Vector3 startPosition;       // Initial position of the object
 
     private void Start()
     {
         startPos = _clueImage.transform.position;
         _clueImage.SetActive(false);
 
-        if(clue != null)
+        startPosition = mapButton.transform.position;
+
+        if (clue != null)
         {
             clue.SetActive(false);
         }
@@ -77,6 +88,7 @@ public class FindClue : MonoBehaviour
 
     private IEnumerator MoveToTarget(GameObject image, float startAlpha, float endAlpha, float duration)
     {
+        gameManager.AddClue();
         Image thisImage = image.GetComponent<Image>();
 
         Color color = thisImage.color;
@@ -99,8 +111,44 @@ public class FindClue : MonoBehaviour
         _clueImage.transform.position = startPos;
         _clueImage.SetActive(false);
 
+        StartCoroutine(MoveUpDown());   
         openMap._children[clueChildNumber] = true;
 
         compass.removeQuestMarker(questMarker);
+
+        if(gameManager.clueNumberFound == 5)
+        {
+            gameManager.endingScene();
+        }
+
+    }
+
+
+    private IEnumerator MoveUpDown()
+    {
+        float timer = 0.0f;
+        float verticalPosition = startPosition.y;
+        Debug.Log("MoveUpDown");
+
+        while (timer < duration)
+        {
+            // Move up
+            while (verticalPosition < startPosition.y + moveDistance && timer < duration)
+            {
+                verticalPosition += moveSpeed * Time.deltaTime;
+                mapButton.transform.position = new Vector3(startPosition.x, verticalPosition, startPosition.z);
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            // Move down
+            while (verticalPosition > startPosition.y && timer < duration)
+            {
+                verticalPosition -= moveSpeed * Time.deltaTime;
+                mapButton.transform.position = new Vector3(startPosition.x, verticalPosition, startPosition.z);
+                timer += Time.deltaTime;
+                yield return null;
+            }
+        }
     }
 }
