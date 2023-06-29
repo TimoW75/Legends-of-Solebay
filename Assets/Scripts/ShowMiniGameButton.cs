@@ -5,13 +5,14 @@ using UnityEngine;
 public class ShowMiniGameButton : MonoBehaviour
 {
     [SerializeField] private GameObject minigameButton;
+    public StartMinigame startMinigame;
     void Start()
     {
         minigameButton.SetActive(false);
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !startMinigame.minigameStarted)
         {
             minigameButton.SetActive(true);
         }
@@ -19,7 +20,7 @@ public class ShowMiniGameButton : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && minigameButton.activeInHierarchy)
         {
             minigameButton.SetActive(false);
         }
