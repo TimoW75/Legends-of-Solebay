@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/StandBye.unity
+    guid: e6ec59891ff79104d883a529e1bfc73e
+  - enabled: 1
     path: Assets/Scenes/OnboardingControls.unity
     guid: eb73fa4178e354d40969706179de81ba
   - enabled: 1
